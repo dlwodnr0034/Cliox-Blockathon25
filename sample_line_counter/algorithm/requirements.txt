@@ -49,7 +49,7 @@ pluggy==1.6.0
     # via pytest
 pygments==2.19.2
     # via pytest
-pyparsing==3.2.1
+pyparsing==3.2.3
     # via matplotlib
 pytest==8.4.1
     # via algorithm (pyproject.toml)

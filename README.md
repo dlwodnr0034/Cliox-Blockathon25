@@ -43,7 +43,7 @@ Here’s a step-by-step guide to set up your environment, install dependencies, 
     pandas==2.2.3
     ```
 
-* Optional 2:
+* Optional 2 (recommanded):
   - Navigate to `template/algorithm`
   - update dependencies in the file `pyproject.toml`
   - Use comment below to generate `requirements.txt` file for libraries 
