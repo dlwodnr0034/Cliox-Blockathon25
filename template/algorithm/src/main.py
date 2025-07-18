@@ -17,7 +17,6 @@ import logging
 from pathlib import Path
 
 from implementation.algorithm import Algorithm
-from implementation.data import InputParameters
 from oceanprotocol_job_details.config import config
 from oceanprotocol_job_details.job_details import OceanProtocolJobDetails
 
@@ -30,7 +29,7 @@ logger = logging.getLogger(__name__)
 
 def main() -> None:
     # Load the current job details from the environment variables
-    job_details = OceanProtocolJobDetails(InputParameters).load()
+    job_details = OceanProtocolJobDetails().load()
 
     logger.info("Starting compute job with the following input information:")
     algorithm = Algorithm(job_details)

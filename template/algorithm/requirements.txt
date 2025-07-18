@@ -1,0 +1,2 @@
+oceanprotocol_job_details
+pytest
