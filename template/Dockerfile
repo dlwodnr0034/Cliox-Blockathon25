@@ -1,18 +1,21 @@
 FROM python:3.11-alpine
 
-# Install scikit-learn specific dependencies
-RUN apk add libgomp libstdc++ build-base
+# Install system dependencies for pandas and scientific packages
+RUN apk add --no-cache libgomp libstdc++ build-base py3-pip libffi-dev musl-dev
+
+# Upgrade pip to latest version
+RUN pip install --upgrade pip
 
 WORKDIR /algorithm
 
 # Copy the algorithm code (with the same depth)
 COPY algorithm/src /algorithm/src
 COPY algorithm/tests /algorithm/tests
-COPY algorithm/requirements.txt /algorithm/requirements.txt
+COPY algorithm/requirements.txt .
 COPY entrypoint.sh /algorithm/entrypoint.sh
 
 # Install the dependencies from the requirements.txt file
-RUN pip install --no-cache-dir -r /algorithm/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1

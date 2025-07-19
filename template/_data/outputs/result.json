@@ -1,3 +1,18 @@
 {
-  "line_count": 43208
+  "original_rows": 995,
+  "cleaned_rows": 995,
+  "duplicates_removed": 0,
+  "columns_removed": 0,
+  "sensitive_columns_removed": [
+    "message"
+  ],
+  "removed_columns": [],
+  "contact_classification": {
+    "business": [],
+    "personal": []
+  },
+  "business_contacts": 0,
+  "personal_contacts": 0,
+  "processing_timestamp": "2025-07-19T07:27:23.546881",
+  "file_type": "dataframe"
 }

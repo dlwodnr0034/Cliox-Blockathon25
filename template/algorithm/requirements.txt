@@ -1,2 +1,5 @@
 oceanprotocol_job_details
 pytest
+pandas
+openpyxl
+xlrd
