@@ -26,15 +26,15 @@ class Algorithm:
         
         # Sensitive data patterns - focused on actual sensitive information
         self.sensitive_patterns = {
-            # pw 단독, 공백, 특수부호(:,= 등)와 함께 있을 때만 감지
-            'password': r'(?i)(?:^|[\s:;=,._-])pw(?:[\s:;=,._-]+|$)\S*',
-            'login_credential': r'(?i)\\b(?:login|username|user)\\b(?=\\s*[:=])',
-            'ip_address': r'\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b',
-            'file_path': r'[A-Z]:\\\\.*\\.(?:pst|nsf|log|tmp)',
-            'internal_folder': r'\\\\[A-Za-z_]+\\\\[A-Za-z\\s]+\\\\',
-            'credit_card': r'\\b\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}\\b',
-            'ssn': r'\\b\\d{3}-\\d{2}-\\d{4}\\b',
-            'phone': r'\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b',
+            # pw, password 등 민감정보가 대소문자 구분 없이, 공백/콜론/등호(:, =) 여러 개 뒤에 값이 오면 모두 감지
+            'password': r'(?i)(password|pw|passwd|pwd)\s*[:= ]+\s*\S+',
+            'login_credential': r'(?i)(login|username|user)\s*[:= ]+\s*\S+',
+            'ip_address': r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b',
+            'file_path': r'[A-Z]:\\.*\.(?:pst|nsf|log|tmp)',
+            'internal_folder': r'\\[A-Za-z_]+\\[A-Za-z\s]+\\',
+            'credit_card': r'\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b',
+            'ssn': r'\b\d{3}-\d{2}-\d{4}\b',
+            'phone': r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',
         }
         
         # Business vs Personal classification patterns
