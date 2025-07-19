@@ -1,6 +1,6 @@
 FROM python:3.11-alpine
 
-# Install system dependencies for pandas and scientific packages
+# Install system dependencies for pandas, numpy, and scientific packages
 RUN apk add --no-cache libgomp libstdc++ build-base py3-pip libffi-dev musl-dev
 
 # Upgrade pip to latest version

@@ -26,14 +26,15 @@ class Algorithm:
         
         # Sensitive data patterns - focused on actual sensitive information
         self.sensitive_patterns = {
-            'password': r'\b(?:password|pw|passwd|pwd)\s*[:=]\s*\S+',
-            'login_credential': r'\b(?:login|username|user)\s*[:=]\s*\S+',
-            'ip_address': r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b',
-            'file_path': r'[A-Z]:\\.*\.(?:pst|nsf|log|tmp)',
-            'internal_folder': r'\\[A-Za-z_]+\\[A-Za-z\s]+\\',
-            'credit_card': r'\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b',
-            'ssn': r'\b\d{3}-\d{2}-\d{4}\b',
-            'phone': r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',
+            # pw 단독, 공백, 특수부호(:,= 등)와 함께 있을 때만 감지
+            'password': r'(?i)(?:^|[\s:;=,._-])pw(?:[\s:;=,._-]+|$)\S*',
+            'login_credential': r'(?i)\\b(?:login|username|user)\\b(?=\\s*[:=])',
+            'ip_address': r'\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b',
+            'file_path': r'[A-Z]:\\\\.*\\.(?:pst|nsf|log|tmp)',
+            'internal_folder': r'\\\\[A-Za-z_]+\\\\[A-Za-z\\s]+\\\\',
+            'credit_card': r'\\b\\d{4}[- ]?\\d{4}[- ]?\\d{4}[- ]?\\d{4}\\b',
+            'ssn': r'\\b\\d{3}-\\d{2}-\\d{4}\\b',
+            'phone': r'\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b',
         }
         
         # Business vs Personal classification patterns
@@ -118,15 +119,14 @@ class Algorithm:
         return sensitive_columns
 
     def _remove_sensitive_data(self, df: pd.DataFrame, sensitive_columns: List[str]) -> pd.DataFrame:
-        """Remove sensitive data completely instead of masking"""
+        """Remove sensitive values in cells instead of dropping columns"""
         df_cleaned = df.copy()
-        
         for col in sensitive_columns:
             if col in df_cleaned.columns:
-                # Remove the entire column instead of masking
-                df_cleaned = df_cleaned.drop(columns=[col])
+                df_cleaned[col] = df_cleaned[col].astype(str).apply(
+                    lambda x: '' if any(re.search(pattern, x, re.IGNORECASE) for pattern in self.sensitive_patterns.values()) else x
+                )
                 self.sensitive_columns_removed.append(col)
-                
         return df_cleaned
 
     def _remove_unnecessary_columns(self, df: pd.DataFrame) -> pd.DataFrame:
